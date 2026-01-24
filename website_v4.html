@@ -158,48 +158,51 @@
 
     .logo-container {
       position: relative;
-      width: 180px;
-      height: 100px;
+      width: 100%;
+      height: 180px;
       margin: 0 auto 15px;
       display: flex;
       align-items: center;
       justify-content: center;
-      perspective: 1000px;
     }
 
     .logo-ring {
       position: absolute;
-      width: 103%;
-      height: 100%;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      width: calc(100% + 8px);
+      height: calc(100% + 8px);
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+      background-size: 200% 200%;
       padding: 3px;
-      animation: rotate 10s linear infinite;
-      transform-style: preserve-3d;
+      animation: borderGradient 4s ease infinite;
+      z-index: 0;
     }
 
     .logo-ring::before {
       content: '';
       position: absolute;
-      top: -3px;
-      left: -3px;
-      right: -3px;
-      bottom: -3px;
-      background: linear-gradient(135deg, var(--secondary), var(--accent));
-      border-radius: 10px;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      background: linear-gradient(135deg, var(--secondary), var(--accent), var(--primary));
+      background-size: 200% 200%;
+      border-radius: 12px;
       z-index: -1;
-      opacity: 0.7;
-      animation: rotate 12s linear infinite reverse;
+      opacity: 0.6;
+      filter: blur(8px);
+      animation: borderGradient 4s ease infinite reverse;
     }
 
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    @keyframes borderGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .logo {
-      width: 180px;
-      height: 100px;
+      width: 100%;
+      height: 100%;
       border-radius: 8px;
       object-fit: cover;
       display: block;
@@ -929,14 +932,10 @@
       }
       
       .logo-container {
-        width: 150px;
-        height: 85px;
+        height: 160px;
       }
       
-      .logo {
-        width: 150px;
-        height: 85px;
-      }
+      /* .logo width/height inherits 100% from base styles */
       
       .title {
         font-size: 18px;
@@ -1045,15 +1044,11 @@
       }
       
       .logo-container {
-        width: 120px;
-        height: 70px;
+        height: 120px;
         margin-bottom: 10px;
       }
       
-      .logo {
-        width: 120px;
-        height: 70px;
-      }
+      /* .logo inherits 100% */
       
       .title {
         font-size: 16px;
@@ -1123,7 +1118,7 @@
 
 
   <!-- Background Music -->
-  <audio id="backgroundMusic" loop>
+  <audio id="backgroundMusic" loop autoplay>
     <source src="https://files.catbox.moe/huzgcc.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
@@ -1136,7 +1131,7 @@
         <video class="logo" autoplay loop muted playsinline>
           <source src="https://files.catbox.moe/xohalw.mp4" type="video/mp4">
           <!-- Fallback image if video doesn't load -->
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23141429'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%235c5cff'%3EINVIRUSBLAST%3C/text%3E%3C/svg%3E" alt="Invirusblast Logo">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='150' viewBox='0 0 300 150'%3E%3Crect width='300' height='150' fill='%23141429'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='%235c5cff'%3EINVIRUSBLAST%3C/text%3E%3C/svg%3E" alt="Invirusblast Logo">
         </video>
       </div>
       
