@@ -902,42 +902,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Music Control Button - Mobile Optimized */
-    .music-control {
-      position: fixed;
-      bottom: 15px;
-      left: 15px;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      cursor: pointer;
-      z-index: 100;
-      box-shadow: 0 0 15px rgba(92, 92, 255, 0.5);
-      transition: all 0.3s ease;
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .music-control:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(92, 92, 255, 0.7);
-    }
-
-    .music-control.muted {
-      background: linear-gradient(135deg, var(--muted), var(--danger));
-    }
-
-    .music-control .fa-volume-up,
-    .music-control .fa-volume-mute {
-      font-size: 18px;
-    }
 
     /* Error message styling */
     .error-message {
@@ -1042,18 +1006,6 @@
       .feature-btn {
         padding: 11px 20px;
         font-size: 12px;
-      }
-      
-      .music-control {
-        width: 40px;
-        height: 40px;
-        bottom: 12px;
-        left: 12px;
-      }
-      
-      .music-control .fa-volume-up,
-      .music-control .fa-volume-mute {
-        font-size: 16px;
       }
       
       .toast {
@@ -1169,10 +1121,6 @@
     <div class="loading-spinner"></div>
   </div>
 
-  <!-- Music Control Button -->
-  <div class="music-control" id="musicControl">
-    <i class="fas fa-volume-up" id="musicIcon"></i>
-  </div>
 
   <!-- Background Music -->
   <audio id="backgroundMusic" loop>
@@ -1379,8 +1327,6 @@
 
     // ==================== INISIALISASI VARIABEL ====================
     const backgroundMusic = document.getElementById('backgroundMusic');
-    const musicControl = document.getElementById('musicControl');
-    const musicIcon = document.getElementById('musicIcon');
     let musicInitialized = false;
     let isMusicPlaying = false;
     let currentUser = null;
@@ -1412,14 +1358,12 @@
         playPromise.then(() => {
           // Musik berhasil diputar
           isMusicPlaying = true;
-          updateMusicButton();
           localStorage.setItem('musicEnabled', 'true');
           console.log('Music started successfully');
         })
         .catch(error => {
           // Autoplay dicegah, tunggu interaksi pengguna
           console.log('Autoplay prevented:', error);
-          showMusicButton();
           
           // Coba lagi setelah interaksi pengguna
           document.addEventListener('click', tryPlayMusicOnInteraction, { once: true });
@@ -1443,23 +1387,6 @@
       } else {
         playMusic();
       }
-      updateMusicButton();
-    }
-
-    // Perbarui tampilan tombol musik
-    function updateMusicButton() {
-      if (isMusicPlaying) {
-        musicControl.classList.remove('muted');
-        musicIcon.className = 'fas fa-volume-up';
-      } else {
-        musicControl.classList.add('muted');
-        musicIcon.className = 'fas fa-volume-mute';
-      }
-    }
-
-    // Tampilkan tombol musik
-    function showMusicButton() {
-      musicControl.style.display = 'flex';
     }
 
     // ==================== FUNGSI UTILITAS ====================
@@ -1771,9 +1698,6 @@
       
       // Initialize music system
       initMusic();
-      
-      // Add event listener for music control button
-      musicControl.addEventListener('click', toggleMusic);
       
       // Efek fokus input form
       const inputs = document.querySelectorAll('input');
