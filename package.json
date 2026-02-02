@@ -1,0 +1,12 @@
+{
+  "name": "invirusblast-v4",
+  "version": "1.0.0",
+  "description": "Project structure for Invirusblast V4",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
