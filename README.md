@@ -17,6 +17,30 @@ project/
     └── dashboard.html      # Halaman Dashboard Utama
 ```
 
+## 🔑 Informasi Login (Cara Mendapatkan Username & Password)
+
+### 1. Akun Default
+Secara default, project ini sudah menyertakan satu akun admin yang bisa langsung digunakan:
+
+- **Username:** `7890825241`
+- **Password:** `admin`
+
+*(Anda bisa mengubahnya langsung di file `database/user.json`)*
+
+### 2. Membuat Akun Baru (Via Bot Telegram)
+Jika Anda ingin membuat akun login baru tanpa mengedit file, gunakan bot Telegram yang sudah dikonfigurasi.
+
+**Format Command:**
+`/ckey <username>,<durasi>,<password_custom>`
+
+**Contoh:**
+- `/ckey budi,30d` (Membuat user "budi" aktif 30 hari dengan password acak)
+- `/ckey admin2,1d,12345` (Membuat user "admin2" aktif 1 hari dengan password "12345")
+
+**Catatan:**
+- Command ini hanya bisa dijalankan oleh **Owner** (ID Telegram yang ada di `database/config.js`).
+- Gunakan command `/listkey` untuk melihat semua akun yang aktif.
+
 ## 🚀 Cara Menjalankan
 
 ### 1. Prasyarat
@@ -45,23 +69,6 @@ module.exports = {
 };
 ```
 
-**File: `database/user.json`**
-Ini adalah akun untuk login ke panel web.
-Default user:
-- **Username:** `7890825241`
-- **Password (Key):** `admin`
-
-Anda bisa mengubahnya di file tersebut. Format:
-```json
-[
-  {
-    "username": "7890825241",
-    "key": "admin",
-    "expired": 9999999999999
-  }
-]
-```
-
 ### 4. Run Server
 Jalankan server dengan perintah:
 
@@ -78,7 +85,7 @@ Jika berhasil, akan muncul pesan:
 
 ### 5. Penggunaan
 1.  Buka browser dan akses: `http://localhost:1466` (atau IP VPS Anda).
-2.  Login dengan kredensial yang ada di `database/user.json`.
+2.  Login menggunakan Username dan Password (lihat bagian **Informasi Login** di atas).
 3.  Setelah login, Anda akan diarahkan ke Dashboard.
 4.  Hubungkan sesi WhatsApp terlebih dahulu melalui Bot Telegram (gunakan command `/addbot` atau `/addsender`).
 5.  Di Dashboard, masukkan nomor target dan pilih jenis serangan.
