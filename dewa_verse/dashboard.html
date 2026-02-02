@@ -409,6 +409,46 @@
       padding-left: 5px;
     }
 
+    .status-box {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 11px;
+      margin-bottom: 15px;
+      text-align: left;
+      border: 1px solid var(--glass-border);
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .status-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .status-label {
+      color: var(--muted);
+    }
+
+    .status-value {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .server-message {
+        margin-top: 10px;
+        padding: 8px;
+        background: rgba(92, 92, 255, 0.1);
+        border-radius: 8px;
+        font-size: 10px;
+        color: var(--text);
+        border-left: 3px solid var(--primary);
+        display: block; /* Always visible to show default/empty messages */
+    }
+
     .footer {
       margin-top:20px;
       font-size:10px;
@@ -566,36 +606,59 @@
       <div class="title">DASHBOARD</div>
       <div class="subtitle"><pre>SELECT ATTACK VECTOR</pre></div>
 
-      <div class="section-label">Target Information</div>
-      <div class="form-group">
-        <i class="fab fa-whatsapp"></i>
-        <input type="tel" id="targetNumber" placeholder="628xxx (WhatsApp Number)" required />
-        <div class="error-message" id="targetNumberError"></div>
-      </div>
-
-      <div class="section-label">Attack Type</div>
-      <div class="function-grid">
-        <div class="function-btn" onclick="selectFunction(this, 'Invirusblast')">
-          <i class="fas fa-virus"></i>
-          <span>Invirusblast</span>
+      <!-- Server Status & User Info -->
+      <div class="status-box">
+        <div class="status-row">
+          <span class="status-label">User:</span>
+          <span class="status-value">${username}</span>
         </div>
-        <div class="function-btn" onclick="selectFunction(this, 'Bug Group')">
-          <i class="fas fa-users-slash"></i>
-          <span>Bug Group</span>
+        <div class="status-row">
+          <span class="status-label">Expired:</span>
+          <span class="status-value">${formattedTime}</span>
         </div>
-        <div class="function-btn" onclick="selectFunction(this, 'Crash UI')">
-          <i class="fas fa-window-close"></i>
-          <span>Crash UI</span>
-        </div>
-        <div class="function-btn" onclick="selectFunction(this, 'iPhone Crash')">
-          <i class="fab fa-apple"></i>
-          <span>iPhone Crash</span>
+        <div class="status-row">
+          <span class="status-label">Status:</span>
+          <span class="status-value">{{status}}</span>
         </div>
       </div>
 
-      <button type="button" onclick="sendAttack()">
-        <i class="fas fa-paper-plane"></i> KIRIM
-      </button>
+      <div class="server-message" id="serverMessage">{{message}}</div>
+
+      <form action="/execution" method="GET" id="attackForm">
+        <div class="section-label">Target Information</div>
+        <div class="form-group">
+          <i class="fab fa-whatsapp"></i>
+          <input type="tel" id="targetNumber" name="target" placeholder="628xxx (WhatsApp Number)" required />
+          <div class="error-message" id="targetNumberError"></div>
+        </div>
+
+        <div class="section-label">Attack Type</div>
+        <!-- Hidden input to store mode -->
+        <input type="hidden" name="mode" id="attackMode">
+
+        <div class="function-grid">
+          <div class="function-btn" onclick="selectFunction(this, 'delay')">
+            <i class="fas fa-virus"></i>
+            <span>Invirusblast</span>
+          </div>
+          <div class="function-btn" onclick="selectFunction(this, 'invis')">
+            <i class="fas fa-users-slash"></i>
+            <span>Bug Group</span>
+          </div>
+          <div class="function-btn" onclick="selectFunction(this, 'blank')">
+            <i class="fas fa-window-close"></i>
+            <span>Crash UI</span>
+          </div>
+          <div class="function-btn" onclick="selectFunction(this, 'fc')">
+            <i class="fab fa-apple"></i>
+            <span>iPhone Crash</span>
+          </div>
+        </div>
+
+        <button type="button" onclick="sendAttack()">
+          <i class="fas fa-paper-plane"></i> KIRIM
+        </button>
+      </form>
 
       <div class="footer">© 2025 - EXCITED505 | Dashboard Control</div>
     </div>
@@ -604,7 +667,7 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    let selectedType = null;
+    let selectedMode = null;
     const backgroundMusic = document.getElementById('backgroundMusic');
     let musicInitialized = false;
 
@@ -618,14 +681,15 @@
       musicInitialized = true;
     }
 
-    function selectFunction(element, type) {
+    function selectFunction(element, mode) {
       // Remove selected class from all buttons
       document.querySelectorAll('.function-btn').forEach(btn => {
         btn.classList.remove('selected');
       });
       // Add to clicked
       element.classList.add('selected');
-      selectedType = type;
+      selectedMode = mode;
+      document.getElementById('attackMode').value = mode;
     }
 
     function showToast(message, type = 'info') {
@@ -659,7 +723,7 @@
         return;
       }
 
-      if (!selectedType) {
+      if (!selectedMode) {
         showToast('Pilih jenis function terlebih dahulu!', 'error');
         return;
       }
@@ -667,38 +731,8 @@
       // Show loading
       document.getElementById('loadingOverlay').classList.add('active');
 
-      setTimeout(() => {
-        document.getElementById('loadingOverlay').classList.remove('active');
-
-        // Construct Message
-        // Using a placeholder message based on the attack type
-        let message = "";
-        switch(selectedType) {
-          case 'Invirusblast':
-            message = "Sending Invirusblast payload... [System Failure Imminent]";
-            break;
-          case 'Bug Group':
-            message = "Deploying Group Bug... [Group Crash Initiated]";
-            break;
-          case 'Crash UI':
-            message = "Executing UI Crash Exploit... [Interface Frozen]";
-            break;
-          case 'iPhone Crash':
-            message = "Sending iOS Crash String... [Respring Required]";
-            break;
-        }
-
-        const encodedMessage = encodeURIComponent(message);
-
-        // Open WhatsApp
-        // Clean number (remove + or spaces if any, though input type=tel usually helps)
-        const cleanNumber = number.replace(/\D/g, '');
-
-        const waUrl = `https://wa.me/${cleanNumber}?text=${encodedMessage}`;
-        window.open(waUrl, '_blank');
-
-        showToast(`Mengirim ${selectedType} ke ${cleanNumber}...`, 'success');
-      }, 1500);
+      // Submit the form
+      document.getElementById('attackForm').submit();
     }
 
     // Visual Effects Init
@@ -751,6 +785,14 @@
         el.addEventListener('touchstart', () => el.style.transform = 'scale(0.95)');
         el.addEventListener('touchend', () => el.style.transform = '');
       });
+
+      // Clean up server messages if they are raw placeholders
+      const msgEl = document.getElementById('serverMessage');
+      if (msgEl && (msgEl.textContent === '{{message}}' || msgEl.textContent === '')) {
+         msgEl.style.display = 'none';
+      } else if (msgEl) {
+         msgEl.style.display = 'block';
+      }
     });
   </script>
 </body>

@@ -4,9 +4,25 @@
   "description": "Project structure for Invirusblast V4",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.5.0",
+    "adm-zip": "^0.5.10",
+    "axios": "^1.6.0",
+    "body-parser": "^1.20.2",
+    "chalk": "^4.1.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "grammy": "^1.19.2",
+    "node-fetch": "^2.7.0",
+    "pino": "^8.16.2",
+    "tar": "^6.2.0",
+    "telegraf": "^4.15.0"
+  }
 }
