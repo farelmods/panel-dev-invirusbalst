@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Invirusblast V4 - Quantum System Interface (Mobile Optimized)</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:#0a001a;          /* biru gelap keunguan */
+      --card:#141429;        /* warna card gelap lembut */
+      --muted:#b8b8ff;       /* teks pendukung lembut */
+      --text:#f8f8ff;        /* teks utama */
+      --primary:#5c5cff;     /* biru neon */
+      --secondary:#b14eff;   /* ungu neon */
+      --accent:#7a00ff;      /* ungu elektrik */
+      --success:#00ff88;     /* hijau neon */
+      --warning:#ffaa00;     /* oranye neon */
+      --danger:#ff0050;      /* merah neon */
+      --glass: rgba(255,255,255,0.05);
+      --glass-border: rgba(255,255,255,0.1);
+    }
+
+    * {
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 3px;
+    }
+
+    body {
+      font-family: Poppins, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(92, 92, 255, 0.15), transparent 40%),
+        radial-gradient(circle at 80% 10%, rgba(177, 78, 255, 0.12), transparent 35%),
+        radial-gradient(circle at 50% 90%, rgba(122, 0, 255, 0.1), transparent 40%),
+        var(--bg);
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding: 10px;
+      box-sizing: border-box;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Animated Background - Optimized for Mobile */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(92, 92, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(177, 78, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(122, 0, 255, 0.05) 0%, transparent 50%);
+      animation: backgroundPulse 15s ease-in-out infinite;
+      z-index: -2;
+    }
+
+    @keyframes backgroundPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 25px 20px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      color: var(--text);
+      box-shadow:
+        0 0 20px rgba(92,92,255,0.3),
+        0 0 40px rgba(177,78,255,0.15),
+        inset 0 0 20px rgba(255,255,255,0.02);
+      animation: fadeIn 0.8s ease;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      margin: 0 auto;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 20px 20px 0 0;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+      50% { background: linear-gradient(90deg, var(--secondary), var(--accent)); }
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 5px 20px rgba(92,92,255,0.4),
+        0 0 30px rgba(177,78,255,0.2);
+    }
+
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(20px) scale(0.95); }
+      to   { opacity:1; transform:translateY(0) scale(1); }
+    }
+
+    .logo-container {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-ring {
+      position: absolute;
+      width: calc(100% + 8px);
+      height: calc(100% + 8px);
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+      background-size: 200% 200%;
+      padding: 3px;
+      animation: borderGradient 4s ease infinite;
+      z-index: 0;
+    }
+
+    .logo-ring::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      background: linear-gradient(135deg, var(--secondary), var(--accent), var(--primary));
+      background-size: 200% 200%;
+      border-radius: 12px;
+      z-index: -1;
+      opacity: 0.6;
+      filter: blur(8px);
+      animation: borderGradient 4s ease infinite reverse;
+    }
+
+    @keyframes borderGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .logo {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      object-fit: cover;
+      display: block;
+      z-index: 1;
+      position: relative;
+      background: #1a1a1a;
+      border: 2px solid rgba(255,255,255,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 15px rgba(92,92,255,0.5);
+    }
+
+    .title {
+      font-size:22px;
+      font-family:Orbitron, sans-serif;
+      font-weight:800;
+      color: var(--text);
+      margin-bottom:5px;
+      text-shadow:0 0 15px rgba(255,255,255,.4);
+      letter-spacing: 1px;
+      animation: glow 2s ease-in-out infinite alternate;
+      position: relative;
+    }
+
+    @keyframes glow {
+      from { text-shadow:0 0 15px rgba(255,255,255,.4); }
+      to { text-shadow:0 0 20px rgba(92,92,255,.8), 0 0 30px rgba(177,78,255,.6); }
+    }
+
+    .subtitle {
+      font-size:12px;
+      color: var(--muted);
+      margin-bottom:20px;
+      font-weight:400;
+      letter-spacing: 0.5px;
+      position: relative;
+    }
+
+    .subtitle::before, .subtitle::after {
+      content: '⚡';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: sparkle 2s infinite;
+    }
+
+    .subtitle::before {
+      left: -15px;
+    }
+
+    .subtitle::after {
+      right: -15px;
+      animation-delay: 1s;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0.3; transform: translateY(-50%) scale(0.8); }
+      50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
+    }
+
+    .form-group {
+      position:relative;
+      margin-bottom:16px;
+    }
+
+    .form-group i {
+      position:absolute;
+      left:15px;
+      top:50%;
+      transform:translateY(-50%);
+      color:var(--secondary);
+      font-size:14px;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    input {
+      width:100%;
+      padding:14px 14px 14px 40px;
+      border-radius:12px;
+      border:1px solid var(--glass-border);
+      background:var(--glass);
+      color:var(--text);
+      font-size:14px;
+      outline:none;
+      transition: all .3s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      font-weight:500;
+      position: relative;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input:focus {
+      border-color:var(--primary);
+      box-shadow:0 0 0 2px rgba(92,92,255,.3),
+                 0 0 15px rgba(92,92,255,.2);
+      background:rgba(255,255,255,.1);
+      transform: translateY(-1px);
+    }
+
+    input:focus + i {
+      color: var(--primary);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    input::placeholder {
+      color: var(--muted);
+      font-weight:400;
+    }
+
+    button {
+      width:100%;
+      padding:15px;
+      font-size:14px;
+      font-weight:600;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      background:linear-gradient(135deg, var(--primary), var(--secondary));
+      color:white;
+      transition: all .3s ease;
+      box-shadow:0 0 20px rgba(92,92,255,.3);
+      position: relative;
+      overflow: hidden;
+      margin-top: 8px;
+      letter-spacing: 0.5px;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+      transition: left 0.6s;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:hover {
+      transform:translateY(-2px) scale(1.01);
+      box-shadow:0 0 25px rgba(92,92,255,.5),
+                 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    button:active {
+      transform:scale(0.98);
+    }
+
+    button i {
+      margin-right: 8px;
+      font-size: 14px;
+      transition: transform 0.3s ease;
+    }
+
+    button:hover i {
+      transform: translateX(2px);
+    }
+
+    .buy-access {
+      margin-top:16px;
+      display:inline-block;
+      font-size:12px;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:500;
+      background:linear-gradient(135deg, var(--secondary), var(--accent));
+      color:white;
+      text-decoration:none;
+      box-shadow:0 0 15px rgba(177,78,255,.4);
+      font-family:Poppins, sans-serif;
+      transition: all .3s ease;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .buy-access:hover {
+      transform:translateY(-2px) scale(1.02);
+      box-shadow:0 0 20px rgba(177,78,255,.6);
+    }
+
+    .buy-access i {
+      margin-right: 6px;
+    }
+
+    .footer {
+      margin-top:20px;
+      font-size:10px;
+      color:var(--muted);
+      opacity: 0.8;
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--muted), transparent);
+    }
+
+    .toast {
+      position:fixed;
+      bottom:20px;
+      left:50%;
+      transform:translateX(-50%) translateY(0);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color:white;
+      padding:12px 18px;
+      border-radius:10px;
+      font-size:12px;
+      font-weight:500;
+      box-shadow:0 0 20px rgba(92,92,255,.4);
+      opacity:0;
+      animation: fadeInOut 4s ease forwards;
+      z-index:1000;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      pointer-events: none;
+      max-width: 90%;
+      text-align: center;
+    }
+
+    @keyframes fadeInOut {
+      0%{opacity:0; transform:translate(-50%,30px) scale(0.8);}
+      15%{opacity:1; transform:translate(-50%,0) scale(1);}
+      85%{opacity:1; transform:translate(-50%,0) scale(1);}
+      100%{opacity:0; transform:translate(-50%,30px) scale(0.8);}
+    }
+
+    /* Particle background effect - Optimized for Mobile */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: var(--primary);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 8s infinite ease-in-out;
+      box-shadow: 0 0 10px rgba(92,92,255,0.5);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      50% { transform: translateY(-15px) rotate(180deg) scale(1.2); }
+    }
+
+    /* Connection Lines - Optimized */
+    .connection-lines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .connection-line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      opacity: 0.2;
+      animation: connectionPulse 5s infinite;
+    }
+
+    @keyframes connectionPulse {
+      0%, 100% { opacity: 0.1; width: 0; }
+      50% { opacity: 0.3; width: 100%; }
+    }
+
+    /* Loading Animation */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 0, 26, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .loading-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 3px solid rgba(92, 92, 255, 0.3);
+      border-top-color: var(--primary);
+      animation: spin 1s linear infinite;
+      position: relative;
+    }
+
+    .loading-spinner::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+      border-radius: 50%;
+      border: 3px solid rgba(177, 78, 255, 0.3);
+      border-bottom-color: var(--secondary);
+      animation: spin 0.8s linear infinite reverse;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+
+    /* Error message styling */
+    .error-message {
+      color: var(--danger);
+      font-size: 11px;
+      margin-top: 4px;
+      text-align: left;
+      display: none;
+    }
+
+    .input-error {
+      border-color: var(--danger) !important;
+      box-shadow: 0 0 0 2px rgba(255, 0, 80, 0.3) !important;
+    }
+
+    /* Mobile First Responsive Design */
+    @media (max-width: 480px) {
+      body {
+        padding: 8px;
+      }
+
+      .card {
+        padding: 20px 16px;
+        border-radius: 16px;
+      }
+
+      .logo-container {
+        height: 160px;
+      }
+
+      .title {
+        font-size: 18px;
+      }
+
+      .subtitle {
+        font-size: 11px;
+        margin-bottom: 16px;
+      }
+
+      input {
+        padding: 12px 12px 12px 36px;
+        font-size: 13px;
+      }
+
+      .form-group i {
+        font-size: 12px;
+        left: 12px;
+      }
+
+      button {
+        padding: 13px;
+        font-size: 13px;
+      }
+
+      .buy-access {
+        font-size: 11px;
+        padding: 10px 16px;
+      }
+
+      .toast {
+        font-size: 11px;
+        padding: 10px 14px;
+        bottom: 15px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .card {
+        padding: 18px 14px;
+      }
+
+      .title {
+        font-size: 16px;
+      }
+    }
+
+    /* Landscape Mode Optimization */
+    @media (max-height: 600px) and (orientation: landscape) {
+      .card {
+        padding: 15px;
+      }
+
+      .logo-container {
+        height: 120px;
+        margin-bottom: 10px;
+      }
+
+      .title {
+        font-size: 16px;
+        margin-bottom: 3px;
+      }
+
+      .subtitle {
+        font-size: 10px;
+        margin-bottom: 12px;
+      }
+
+      .form-group {
+        margin-bottom: 12px;
+      }
+
+      input {
+        padding: 10px 10px 10px 32px;
+        font-size: 12px;
+      }
+
+      .form-group i {
+        font-size: 11px;
+        left: 10px;
+      }
+
+      button {
+        padding: 11px;
+        font-size: 12px;
+      }
+    }
+  </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+  <!-- Connection Lines Background -->
+  <div class="connection-lines" id="connectionLines"></div>
+
+  <!-- Particle Background -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+
+  <!-- Background Music -->
+  <audio id="backgroundMusic" loop autoplay>
+    <source src="https://files.catbox.moe/huzgcc.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Login Card Container -->
+  <div style="position: relative; width: 100%; max-width: 380px; margin: 0 auto;">
+    <div class="card" id="loginCard">
+      <div class="logo-container">
+        <div class="logo-ring"></div>
+        <video class="logo" autoplay loop muted playsinline>
+          <source src="https://files.catbox.moe/xohalw.mp4" type="video/mp4">
+          <!-- Fallback image if video doesn't load -->
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='150' viewBox='0 0 300 150'%3E%3Crect width='300' height='150' fill='%23141429'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='%235c5cff'%3EINVIRUSBLAST%3C/text%3E%3C/svg%3E" alt="Invirusblast Logo">
+        </video>
+      </div>
+
+      <div class="title">Invirusblast</div>
+      <div class="subtitle"><pre>V4.0 - QUANTUM MOBILE</pre></div>
+
+      <!-- Updated form for server-side auth -->
+      <form id="loginForm" action="/auth" method="POST">
+        <div class="form-group">
+          <i class="fas fa-user"></i>
+          <input type="text" name="username" placeholder="Username" required />
+          <div class="error-message" id="usernameError"></div>
+        </div>
+        <div class="form-group">
+          <i class="fas fa-key"></i>
+          <input type="password" name="key" placeholder="Password" required />
+          <div class="error-message" id="passwordError"></div>
+        </div>
+        <button type="submit">
+          <i class="fa-solid fa-right-to-bracket"></i> LOGIN
+        </button>
+      </form>
+
+      <a class="buy-access" href="https://wa.me/6285845663184" target="_blank">
+        <i class="fab fa-whatsapp"></i> Get Key Access
+      </a>
+
+      <div class="footer">© 2025 - EXCITED505 | Quantum System Interface V4 (Mobile Optimized)</div>
+    </div>
+  </div>
+
+  <!-- Toast Message -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ==================== INISIALISASI VARIABEL ====================
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    let musicInitialized = false;
+    let isMusicPlaying = false;
+
+    // ==================== SISTEM MUSIK YANG DIPERBAIKI ====================
+
+    // Inisialisasi sistem musik
+    function initMusic() {
+      if (musicInitialized) return;
+
+      // Set volume
+      backgroundMusic.volume = 0.3;
+
+      // Attempt autoplay immediately
+      playMusic();
+
+      // Fallback: Try to play on any user interaction if autoplay failed
+      document.body.addEventListener('click', function() {
+        if (!isMusicPlaying) {
+          playMusic();
+        }
+      }, { once: true });
+
+      document.body.addEventListener('touchstart', function() {
+        if (!isMusicPlaying) {
+          playMusic();
+        }
+      }, { once: true });
+
+      musicInitialized = true;
+    }
+
+    // Fungsi untuk memutar musik
+    function playMusic() {
+      if (isMusicPlaying) return;
+
+      const playPromise = backgroundMusic.play();
+
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          // Musik berhasil diputar
+          isMusicPlaying = true;
+          console.log('Music started successfully');
+        })
+        .catch(error => {
+          // Autoplay dicegah, tunggu interaksi pengguna
+          console.log('Autoplay prevented:', error);
+        });
+      }
+    }
+
+    // ==================== EFEK VISUAL ====================
+
+    // Buat efek partikel di background - Optimized for Mobile
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = window.innerWidth < 768 ? 15 : 25; // Reduced particles for mobile
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+
+        // Properti acak
+        const size = Math.random() * 4 + 1;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 5;
+        const duration = Math.random() * 3 + 6; // Slower animation for mobile
+
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+
+        // Warna acak
+        const colors = ['#5c5cff', '#b14eff', '#7a00ff', '#00ff88', '#ffaa00', '#ff0050'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.background = randomColor;
+        particle.style.boxShadow = `0 0 8px ${randomColor}`;
+
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Buat connection lines - Optimized
+    function createConnectionLines() {
+      const container = document.getElementById('connectionLines');
+      const lineCount = window.innerWidth < 768 ? 3 : 5; // Reduced lines for mobile
+
+      for (let i = 0; i < lineCount; i++) {
+        const line = document.createElement('div');
+        line.classList.add('connection-line');
+
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 4;
+
+        line.style.top = `${posY}%`;
+        line.style.animationDelay = `${delay}s`;
+
+        container.appendChild(line);
+      }
+    }
+
+    // ==================== INISIALISASI ====================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      createParticles();
+      createConnectionLines();
+
+      // Initialize music system
+      initMusic();
+
+      // Efek fokus input form
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          this.parentElement.querySelector('i').style.color = 'var(--primary)';
+        });
+
+        input.addEventListener('blur', function() {
+          this.parentElement.querySelector('i').style.color = 'var(--secondary)';
+        });
+      });
+
+      // Add touch feedback for mobile
+      const touchElements = document.querySelectorAll('button, .buy-access');
+      touchElements.forEach(element => {
+        element.addEventListener('touchstart', function() {
+          this.style.transform = 'scale(0.95)';
+        });
+
+        element.addEventListener('touchend', function() {
+          this.style.transform = '';
+        });
+      });
+
+      // Handle video error - show fallback
+      const video = document.querySelector('.logo');
+      if (video) {
+        video.addEventListener('error', function() {
+          console.log('Video failed to load, using fallback image');
+          // The fallback image is already in the HTML as the next sibling
+        });
+      }
+
+      // Optimize for device orientation changes
+      window.addEventListener('orientationchange', function() {
+        setTimeout(() => {
+          // Recreate particles for new orientation
+          document.getElementById('particles').innerHTML = '';
+          createParticles();
+
+          document.getElementById('connectionLines').innerHTML = '';
+          createConnectionLines();
+        }, 100);
+      });
+
+      // Check for error parameter in URL
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('msg')) {
+        const msg = urlParams.get('msg');
+        const toast = document.getElementById("toast");
+        toast.textContent = msg;
+        toast.style.background = 'linear-gradient(135deg, var(--danger), var(--warning))';
+        toast.style.display = "block";
+        setTimeout(() => {
+          toast.style.animation = 'fadeInOut 4s ease forwards';
+        }, 10);
+      }
+    });
+  </script>
+</body>
+</html>
